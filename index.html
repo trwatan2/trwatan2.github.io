@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>講義Webページ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system, BlinkMacSystemFont,
+        "Segoe UI", "Hiragino Kaku Gothic ProN",
+        "Yu Gothic", Meiryo, sans-serif;
+      color: #222;
+      background: #f5f7fa;
+      line-height: 1.7;
+    }
+
+    header {
+      background: #15385f;
+      color: white;
+      padding: 42px 20px 34px;
+    }
+
+    .header-inner {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    header p {
+      margin: 0;
+      color: #dfe9f4;
+      font-size: 1rem;
+    }
+
+    nav {
+      background: white;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav .nav-inner {
+      max-width: 1050px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    nav a {
+      display: block;
+      padding: 14px 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      background: #eef3f8;
+      color: #15385f;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 35px auto 60px;
+      padding: 0 20px;
+    }
+
+    section {
+      background: white;
+      margin-bottom: 28px;
+      padding: 28px 32px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #15385f;
+      font-size: 1.45rem;
+      border-bottom: 2px solid #15385f;
+      padding-bottom: 8px;
+    }
+
+    .notice {
+      border-left: 5px solid #c33;
+      background: #fff8f8;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+    }
+
+    .notice-date {
+      font-weight: bold;
+      margin-right: 14px;
+      color: #555;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #ddd;
+      padding: 13px 12px;
+      text-align: left;
+    }
+
+    th {
+      background: #eef3f8;
+      color: #15385f;
+    }
+
+    .button {
+      display: inline-block;
+      background: #15385f;
+      color: white;
+      text-decoration: none;
+      padding: 7px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+
+    .button:hover {
+      background: #24598e;
+    }
+
+    .muted {
+      color: #777;
+    }
+
+    footer {
+      background: #15385f;
+      color: #dfe9f4;
+      text-align: center;
+      padding: 24px 20px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 700px) {
+      header h1 {
+        font-size: 1.7rem;
+      }
+
+      section {
+        padding: 22px 18px;
+      }
+
+      nav a {
+        padding: 11px 12px;
+        font-size: 0.9rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th,
+      td {
+        padding: 10px 7px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>講義名</h1>
+    <p>2026年度　講義Webページ</p>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#news">お知らせ</a>
+    <a href="#overview">講義概要</a>
+    <a href="#schedule">講義予定・資料</a>
+    <a href="#exam">試験・課題</a>
+    <a href="#contact">連絡先</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="news">
+    <h2>お知らせ</h2>
+
+    <div class="notice">
+      <span class="notice-date">2026.08.29</span>
+      講義Webページを開設しました。
+    </div>
+
+    <p class="muted">
+      新しい連絡事項は、この欄に掲載します。
+    </p>
+  </section>
+
+
+  <section id="overview">
+    <h2>講義概要</h2>
+
+    <p>
+      本ページでは、講義に関するお知らせ、講義資料、
+      課題および試験に関する情報を掲載します。
+    </p>
+
+    <table>
+      <tr>
+        <th>科目名</th>
+        <td>講義名</td>
+      </tr>
+      <tr>
+        <th>担当教員</th>
+        <td>担当教員名</td>
+      </tr>
+      <tr>
+        <th>開講年度</th>
+        <td>2026年度</td>
+      </tr>
+      <tr>
+        <th>開講時期</th>
+        <td>前期</td>
+      </tr>
+    </table>
+  </section>
+
+
+  <section id="schedule">
+    <h2>講義予定・資料</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>回</th>
+          <th>講義内容</th>
+          <th>資料</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>第1回</td>
+          <td>ガイダンス</td>
+          <td>準備中</td>
+        </tr>
+
+        <tr>
+          <td>第2回</td>
+          <td>講義内容</td>
+          <td>準備中</td>
+        </tr>
+
+        <tr>
+          <td>第3回</td>
+          <td>講義内容</td>
+          <td>準備中</td>
+        </tr>
+
+        <tr>
+          <td>第4回</td>
+          <td>講義内容</td>
+          <td>準備中</td>
+        </tr>
+
+        <tr>
+          <td>第5回</td>
+          <td>講義内容</td>
+          <td>準備中</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <section id="exam">
+    <h2>試験・課題</h2>
+
+    <p>
+      試験日程、持込物、課題提出期限などについて、
+      決定次第ここに掲載します。
+    </p>
+  </section>
+
+
+  <section id="contact">
+    <h2>連絡先</h2>
+
+    <p>
+      講義に関する質問・連絡については、授業中または指定された方法で連絡してください。
+    </p>
+  </section>
+
+</main>
+
+
+<footer>
+  <p>© 2026 Lecture Website</p>
+</footer>
+
+</body>
+</html>
