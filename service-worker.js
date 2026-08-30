@@ -1,6 +1,6 @@
-const CACHE_NAME = "lecture-portal-green-v2";
+const CACHE_NAME = "lecture-portal-green-v4";
 
-const STATIC_FILES = [
+const APP_FILES = [
   "/",
   "/index.html",
   "/manifest.json",
@@ -8,117 +8,225 @@ const STATIC_FILES = [
   "/icon-512.png"
 ];
 
-self.addEventListener("install", function (event) {
 
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(function (cache) {
-        return cache.addAll(STATIC_FILES);
-      })
-  );
+/* ==========================================
+   INSTALL
+========================================== */
 
-  self.skipWaiting();
+self.addEventListener(
+  "install",
+  function (event) {
 
-});
+    event.waitUntil(
 
+      caches
+        .open(CACHE_NAME)
 
-self.addEventListener("activate", function (event) {
+        .then(function (cache) {
 
-  event.waitUntil(
-    caches.keys()
-      .then(function (cacheNames) {
+          return cache.addAll(
+            APP_FILES
+          );
 
-        return Promise.all(
-          cacheNames.map(function (cacheName) {
-
-            if (cacheName !== CACHE_NAME) {
-              return caches.delete(cacheName);
-            }
-
-          })
-        );
-
-      })
-  );
-
-  self.clients.claim();
-
-});
-
-
-self.addEventListener("fetch", function (event) {
-
-  if (event.request.method !== "GET") {
-    return;
-  }
-
-
-  if (event.request.mode === "navigate") {
-
-    event.respondWith(
-
-      fetch(event.request)
-
-        .then(function (response) {
-
-          const copy = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(function (cache) {
-              cache.put(event.request, copy);
-            });
-
-          return response;
-
-        })
-
-        .catch(function () {
-          return caches.match("/index.html");
         })
 
     );
 
-    return;
+    self.skipWaiting();
+
   }
+);
 
 
-  event.respondWith(
+/* ==========================================
+   ACTIVATE
+========================================== */
 
-    caches.match(event.request)
+self.addEventListener(
+  "activate",
+  function (event) {
 
-      .then(function (cachedResponse) {
+    event.waitUntil(
 
-        if (cachedResponse) {
-          return cachedResponse;
-        }
+      caches
+        .keys()
+
+        .then(function (cacheNames) {
+
+          return Promise.all(
+
+            cacheNames.map(
+              function (cacheName) {
+
+                if (
+                  cacheName !== CACHE_NAME
+                ) {
+
+                  return caches.delete(
+                    cacheName
+                  );
+
+                }
+
+              }
+            )
+
+          );
+
+        })
+
+    );
+
+    self.clients.claim();
+
+  }
+);
 
 
-        return fetch(event.request)
+/* ==========================================
+   FETCH
+========================================== */
+
+self.addEventListener(
+  "fetch",
+  function (event) {
+
+    const request = event.request;
+
+    if (request.method !== "GET") {
+      return;
+    }
+
+
+    const url =
+      new URL(request.url);
+
+
+    /* ======================================
+       PDFは絶対にキャッシュしない
+       常にGitHub Pages上の最新版を取得
+    ====================================== */
+
+    if (
+      url.pathname
+        .toLowerCase()
+        .endsWith(".pdf")
+    ) {
+
+      event.respondWith(
+        fetch(request)
+      );
+
+      return;
+
+    }
+
+
+    /* ======================================
+       HTMLはネット上の最新版を優先
+    ====================================== */
+
+    if (
+      request.mode === "navigate"
+    ) {
+
+      event.respondWith(
+
+        fetch(request)
 
           .then(function (response) {
 
-            if (
-              !response ||
-              response.status !== 200 ||
-              response.type === "opaque"
-            ) {
-              return response;
-            }
+            const copy =
+              response.clone();
 
+            caches
+              .open(CACHE_NAME)
 
-            const copy = response.clone();
-
-            caches.open(CACHE_NAME)
               .then(function (cache) {
-                cache.put(event.request, copy);
+
+                cache.put(
+                  request,
+                  copy
+                );
+
               });
 
             return response;
 
-          });
+          })
 
-      })
+          .catch(function () {
 
-  );
+            return caches.match(
+              "/index.html"
+            );
 
-});
+          })
+
+      );
+
+      return;
+
+    }
+
+
+    /* ======================================
+       アイコンなどはキャッシュ利用
+    ====================================== */
+
+    event.respondWith(
+
+      caches
+        .match(request)
+
+        .then(function (cachedResponse) {
+
+          if (cachedResponse) {
+
+            return cachedResponse;
+
+          }
+
+
+          return fetch(request)
+
+            .then(function (response) {
+
+              if (
+                !response ||
+                response.status !== 200 ||
+                response.type === "opaque"
+              ) {
+
+                return response;
+
+              }
+
+
+              const copy =
+                response.clone();
+
+
+              caches
+                .open(CACHE_NAME)
+
+                .then(function (cache) {
+
+                  cache.put(
+                    request,
+                    copy
+                  );
+
+                });
+
+
+              return response;
+
+            });
+
+        })
+
+    );
+
+  }
+);
